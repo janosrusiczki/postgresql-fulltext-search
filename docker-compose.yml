@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:12.2
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4:4.18
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@softvision.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - '80:80'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    links:
+      - 'db:pgsql-server'
+volumes:
+  db-data:
+  pgadmin-data:
